@@ -90,8 +90,7 @@ fun RecipeListScreen(
     LazyColumn(
         modifier = Modifier
             .background(Color.White)
-            .fillMaxWidth()
-            .fillMaxHeight()
+            .fillMaxSize()
     ) {
         item {
             Row(
