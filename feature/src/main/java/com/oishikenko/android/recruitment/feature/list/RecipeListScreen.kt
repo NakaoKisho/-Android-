@@ -35,6 +35,7 @@ fun RecipeListScreen(
     viewModel: RecipeListViewModel = hiltViewModel()
 ) {
     val cookingRecords by viewModel.cookingRecords.collectAsStateWithLifecycle()
+
     LazyColumn(
         modifier = Modifier
             .background(Color.White)
@@ -42,7 +43,9 @@ fun RecipeListScreen(
     ) {
         item {
             Row(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(0.dp, 8.dp, 0.dp, 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
