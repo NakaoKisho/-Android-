@@ -10,10 +10,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,12 +39,27 @@ import com.oishikenko.android.recruitment.feature.R
 fun RecipeListScreen(
     viewModel: RecipeListViewModel = hiltViewModel()
 ) {
-    val cookingRecords by viewModel.cookingRecords.collectAsStateWithLifecycle()
+//    val cookingRecords by viewModel.cookingRecords.collectAsStateWithLifecycle()
+
+    val lazyColumnListState = rememberLazyListState()
+    val shouldStartPaginate = remember {
+        derivedStateOf {
+            viewModel.canPaginate && (lazyColumnListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -9) >= (lazyColumnListState.layoutInfo.totalItemsCount - 6)
+        }
+    }
+
+    val cookingRecordList = viewModel.cookingRecordList
+
+    LaunchedEffect(key1 = shouldStartPaginate.value) {
+        if (shouldStartPaginate.value && viewModel.listState == ListState.IDLE)
+            viewModel.getCookingRecord()
+    }
 
     LazyColumn(
         modifier = Modifier
             .background(Color.White)
-            .fillMaxSize()
+            .fillMaxSize(),
+        state = lazyColumnListState
     ) {
         item {
             Row(
@@ -66,8 +86,13 @@ fun RecipeListScreen(
                 )
             }
         }
-        items(cookingRecords) {
-            RecipeListItem(it)
+        items(
+            items = cookingRecordList
+        ) {
+//            items(cookingRecords) {
+            if (it != null) {
+                RecipeListItem(it)
+            }
         }
     }
 }
