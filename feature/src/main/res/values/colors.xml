@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="cooking_records_title_color">#333333</color>
+    <color name="recipe_list_item_border_color">#DCE0E0</color>
+    <color name="cooking_records_recipe_type_color">#333333</color>
+    <color name="cooking_records_datetime_color">#676767</color>
+</resources>

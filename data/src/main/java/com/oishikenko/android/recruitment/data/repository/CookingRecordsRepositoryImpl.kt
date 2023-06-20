@@ -10,7 +10,7 @@ import javax.inject.Inject
 class CookingRecordsRepositoryImpl @Inject constructor (
     var cookingRecordsNetworkApi: CookingRecordsNetworkApi
 ): CookingRecordsRepository {
-    override fun getCookingRecords(offet: Int, limit: Int): Flow<Response<CookingRecords>> = flow {
-        emit(cookingRecordsNetworkApi.getCookingRecords(offset = offet, limit = limit))
+    override fun getCookingRecords(offset: Int, limit: Int): Flow<Response<CookingRecords>> = flow {
+        emit(cookingRecordsNetworkApi.getCookingRecords(offset = offset, limit = limit))
     }
 }
